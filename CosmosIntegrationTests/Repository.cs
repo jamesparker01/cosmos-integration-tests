@@ -25,11 +25,37 @@ namespace CosmosIntegrationTests
 
         public async Task<Page> Read(Guid id)
         {
-            var response = await _container.ReadItemAsync<PageDto>(
-                id.ToString(),
-                new PartitionKey(id.ToString()));
+            try
+            {
+                 var response = await _container.ReadItemAsync<PageDto>(
+                    id.ToString(),
+                    new PartitionKey(id.ToString()));
 
-            return response.Resource.ToDomain();
+                return response.Resource.ToDomain();
+            }
+            catch (CosmosException e)
+            {
+                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task Upsert(Page page)
+        {
+             var response = await _container.UpsertItemAsync(
+                new PageDto().FromDomain(page),
+                partitionKey: new PartitionKey(page.Id.ToString()));
+        }
+
+        public async Task Delete(Guid id)
+        {
+             await _container.DeleteItemAsync<PageDto>(
+                 id.ToString(),
+                new PartitionKey(id.ToString()));
         }
     }
 }
