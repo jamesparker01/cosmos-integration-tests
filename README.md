@@ -1,6 +1,6 @@
 # Cosmos integration tests
 
-Just a small hacky project to test an Azure Cosmus using the Microsoft Cosmos local emulator. It requires the emulator to be installed and running. 
+Just a small project to test an Azure Cosmus using the Microsoft Cosmos local emulator. It requires the emulator to be installed and running. 
 
 Download link: https://aka.ms/cosmosdb-emulator
 
