@@ -23,6 +23,12 @@ namespace CosmosIntegrationTests
             Assert.That(readResponse.Slug, Is.EqualTo(page.Slug));
             Assert.That(readResponse.Title, Is.EqualTo(page.Title));
 
+            var readResponseFromSlug = await repository.ReadBySlug(page.Slug);
+
+            Assert.That(readResponseFromSlug.Id, Is.EqualTo(page.Id));
+            Assert.That(readResponseFromSlug.Slug, Is.EqualTo(page.Slug));
+            Assert.That(readResponseFromSlug.Title, Is.EqualTo(page.Title));
+
             // when
             updatedPage.Id = page.Id;
             await repository.Upsert(updatedPage);
